@@ -1,23 +1,64 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#080912">
-<title>Bradley's AI OS</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Brad OS">
+<meta name="application-name" content="Brad OS">
+<meta name="theme-color" content="#080912">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<title>Brad OS</title>
 <style>
-html,body{margin:0;height:100%;background:#080912;color:#e8e8ff;font-family:-apple-system,system-ui,sans-serif}
-nav{position:fixed;top:0;left:0;right:0;z-index:2;display:flex;gap:6px;padding:calc(env(safe-area-inset-top) + 6px) 6px 6px;background:#14163A;border-bottom:1px solid #8482EC;overflow-x:auto}
-nav button{flex:1 0 auto;padding:10px 12px;border:1px solid #8482EC;border-radius:10px;background:#080912;color:#e8e8ff;font-size:14px;white-space:nowrap}
-nav button.on{background:#8482EC;color:#080912;font-weight:700}
-#wrap{position:fixed;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top) + 56px)}
-iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#080912}
+:root{--navy:#080912;--deep:#14163A;--mid:#202045;--line:#2D2B59;--lav:#8482EC;--lavl:#A7A0F0;--lime:#22DD22;--yel:#E6F01E;--teal:#2CF5E8;
+--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--sl:env(safe-area-inset-left,0px);--sr:env(safe-area-inset-right,0px);--top:44px;--tab:60px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--navy);color:#e8e8ff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;-webkit-text-size-adjust:100%;overscroll-behavior:none}
+header{position:fixed;top:0;left:0;right:0;z-index:3;height:calc(var(--top) + var(--st));padding:var(--st) calc(12px + var(--sr)) 0 calc(12px + var(--sl));display:flex;align-items:center;gap:10px;
+background:linear-gradient(180deg,var(--deep),rgba(20,22,58,.94));border-bottom:1px solid var(--line);box-shadow:0 2px 14px rgba(44,245,232,.12)}
+header img{width:28px;height:28px;border-radius:8px;box-shadow:0 0 10px rgba(44,245,232,.55)}
+header .t{font-weight:800;font-size:17px;letter-spacing:.2px;background:linear-gradient(90deg,var(--lavl),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+header .u{margin-left:auto;font-size:11px;color:var(--lavl);white-space:nowrap;display:flex;align-items:center;gap:6px}
+header .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime)}
+header button{min-width:44px;min-height:44px;margin-right:-8px;border:0;background:none;color:var(--teal);font-size:20px;cursor:pointer}
+#wrap{position:fixed;left:var(--sl);right:var(--sr);top:calc(var(--top) + var(--st));bottom:calc(var(--tab) + var(--sb));overflow:auto;-webkit-overflow-scrolling:touch;background:var(--navy)}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:var(--navy)}
 iframe.on{display:block}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:3;height:calc(var(--tab) + var(--sb));padding:0 var(--sr) var(--sb) var(--sl);display:flex;
+background:linear-gradient(0deg,var(--navy),rgba(20,22,58,.97));border-top:1px solid var(--line);box-shadow:0 -2px 16px rgba(132,130,236,.18)}
+nav button{flex:1;min-height:44px;min-width:44px;border:0;background:none;color:#9a98d8;font:600 11px/1.1 inherit;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;position:relative}
+nav button .i{font-size:22px;line-height:1;filter:grayscale(.5) opacity(.75)}
+nav button.on{color:var(--yel)}
+nav button.on .i{filter:none;text-shadow:0 0 10px rgba(44,245,232,.8)}
+nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--lime),var(--yel));box-shadow:0 0 10px var(--lime)}
+#load{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;color:var(--lavl);font-size:13px;pointer-events:none}
 </style></head><body>
-<nav id="nav"></nav><div id="wrap"></div>
+<header><img src="apple-touch-icon.png" alt=""><span class="t">Brad OS</span>
+<span class="u"><span class="dot"></span><span id="upd">Live</span></span>
+<button id="rl" aria-label="Reload this tab">&#x21bb;</button></header>
+<div id="wrap"></div><div id="load">Loading...</div>
+<nav id="nav"></nav>
 <script>
-var apps=[["os","My AI OS","ai-operating-system.html"],["cc","Command Center","command-center.html"],["org","Org Chart","org-chart.html"],["fleet","Fleet Audit","fleet-audit.html"]];
-var nav=document.getElementById("nav"),wrap=document.getElementById("wrap"),frames={};
-function show(id){apps.forEach(function(a){var on=a[0]===id;nav.querySelector('[data-id="'+a[0]+'"]').className=on?"on":"";
- if(on&&!frames[id]){var f=document.createElement("iframe");f.src=a[2];f.allow="autoplay";f.title=a[1];wrap.appendChild(f);frames[id]=f;}
- if(frames[a[0]])frames[a[0]].className=on?"on":"";});location.hash=id;}
-apps.forEach(function(a){var b=document.createElement("button");b.textContent=a[1];b.dataset.id=a[0];b.onclick=function(){show(a[0]);};nav.appendChild(b);});
-var h=location.hash.slice(1);show(apps.some(function(a){return a[0]===h;})?h:"os");
+var apps=[["os","My AI OS","ai-operating-system.html","\u{1F9E0}"],["cc","Command","command-center.html","\u{1F6F0}\uFE0F"],["org","Org Chart","org-chart.html","\u{1F465}"],["fleet","Fleet","fleet-audit.html","\u{1F50E}"]];
+var full={os:"My AI OS",cc:"Command Center",org:"Org Chart",fleet:"Fleet Audit"};
+var nav=document.getElementById("nav"),wrap=document.getElementById("wrap"),upd=document.getElementById("upd"),load=document.getElementById("load"),frames={},cur=null;
+function stamp(a){try{fetch(a[2],{method:"HEAD",cache:"no-store"}).then(function(r){var lm=r.headers.get("last-modified");if(!lm||cur!==a[0])return;
+ var d=new Date(lm);upd.textContent="Updated "+d.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});}).catch(function(){});}catch(e){}}
+function show(id){cur=id;apps.forEach(function(a){var on=a[0]===id,b=nav.querySelector('[data-id="'+a[0]+'"]');b.className=on?"on":"";b.setAttribute("aria-selected",on);
+ if(on&&!frames[id]){var f=document.createElement("iframe");f.src=a[2];f.allow="autoplay; fullscreen";f.title=full[a[0]];load.style.display="block";f.onload=function(){f.dataset.l="1";if(cur===a[0])load.style.display="none";};wrap.appendChild(f);frames[id]=f;}
+ if(frames[a[0]])frames[a[0]].className=on?"on":"";if(on)stamp(a);});
+ if(frames[id]&&frames[id].dataset.l)load.style.display="none";
+ try{localStorage.setItem("brados-tab",id);}catch(e){}
+ history.replaceState(null,"",id==="os"?location.pathname:"#"+id);}
+apps.forEach(function(a){var b=document.createElement("button");b.dataset.id=a[0];b.setAttribute("role","tab");b.setAttribute("aria-label",full[a[0]]);
+ b.innerHTML='<span class="i">'+a[3]+'</span><span>'+a[1]+'</span>';b.onclick=function(){show(a[0]);};nav.appendChild(b);});
+document.getElementById("rl").onclick=function(){var f=frames[cur];if(f){load.style.display="block";f.src=f.src.split("?")[0]+"?r="+Date.now();}apps.forEach(function(a){if(a[0]===cur)stamp(a);});};
+function pick(){var h=location.hash.slice(1),s=null;try{s=localStorage.getItem("brados-tab");}catch(e){}
+ var ok=function(x){return apps.some(function(a){return a[0]===x;});};return ok(h)?h:(ok(s)?s:"os");}
+show(pick());
+window.addEventListener("hashchange",function(){var h=location.hash.slice(1);if(h&&h!==cur&&apps.some(function(a){return a[0]===h;}))show(h);});
+document.addEventListener("visibilitychange",function(){if(!document.hidden)apps.forEach(function(a){if(a[0]===cur)stamp(a);});});
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
 </script></body></html>
