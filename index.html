@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#080912">
+<title>Bradley's AI OS</title>
+<style>
+html,body{margin:0;height:100%;background:#080912;color:#e8e8ff;font-family:-apple-system,system-ui,sans-serif}
+nav{position:fixed;top:0;left:0;right:0;z-index:2;display:flex;gap:6px;padding:calc(env(safe-area-inset-top) + 6px) 6px 6px;background:#14163A;border-bottom:1px solid #8482EC;overflow-x:auto}
+nav button{flex:1 0 auto;padding:10px 12px;border:1px solid #8482EC;border-radius:10px;background:#080912;color:#e8e8ff;font-size:14px;white-space:nowrap}
+nav button.on{background:#8482EC;color:#080912;font-weight:700}
+#wrap{position:fixed;left:0;right:0;bottom:0;top:calc(env(safe-area-inset-top) + 56px)}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#080912}
+iframe.on{display:block}
+</style></head><body>
+<nav id="nav"></nav><div id="wrap"></div>
+<script>
+var apps=[["os","My AI OS","ai-operating-system.html"],["cc","Command Center","command-center.html"],["org","Org Chart","org-chart.html"],["fleet","Fleet Audit","fleet-audit.html"]];
+var nav=document.getElementById("nav"),wrap=document.getElementById("wrap"),frames={};
+function show(id){apps.forEach(function(a){var on=a[0]===id;nav.querySelector('[data-id="'+a[0]+'"]').className=on?"on":"";
+ if(on&&!frames[id]){var f=document.createElement("iframe");f.src=a[2];f.allow="autoplay";f.title=a[1];wrap.appendChild(f);frames[id]=f;}
+ if(frames[a[0]])frames[a[0]].className=on?"on":"";});location.hash=id;}
+apps.forEach(function(a){var b=document.createElement("button");b.textContent=a[1];b.dataset.id=a[0];b.onclick=function(){show(a[0]);};nav.appendChild(b);});
+var h=location.hash.slice(1);show(apps.some(function(a){return a[0]===h;})?h:"os");
+</script></body></html>
