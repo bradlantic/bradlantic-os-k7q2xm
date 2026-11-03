@@ -1,6 +1,6 @@
 // Brad OS service worker. Network first for pages so 2 hourly refreshes always show.
 // Cached copy is only used when offline.
-var CACHE = "brados-v1";
+var CACHE = "brados-v2";
 var CORE = ["./", "index.html", "manifest.webmanifest", "apple-touch-icon.png", "icon-192.png", "icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }).catch(function () {}));
@@ -17,7 +17,7 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(req.url);
   if (url.origin !== location.origin) return;
   var isPage = req.mode === "navigate" || req.destination === "document" || req.destination === "iframe" ||
-    url.pathname.endsWith("/") || url.pathname.endsWith(".html") || url.pathname.endsWith(".webmanifest") || url.pathname.endsWith("sw.js");
+    url.pathname.endsWith("/") || url.pathname.endsWith(".html") || url.pathname.endsWith(".webmanifest") || url.pathname.endsWith(".json") || url.pathname.endsWith("sw.js");
   if (isPage) {
     e.respondWith(
       fetch(url.href, { cache: "no-store", credentials: "same-origin" }).then(function (res) {

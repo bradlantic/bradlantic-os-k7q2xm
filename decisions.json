@@ -1,0 +1,28 @@
+{
+ "built_at": "2026-11-03T14:33-05:00",
+ "source": "/workspace/kits/status/decisions.json",
+ "approve_to": "bradlantic+approve@mail.grokbot.com",
+ "count": 2,
+ "decisions": [
+  {
+   "id": "D001",
+   "key": "xrpl-merge",
+   "title": "xrpl scout: merge it into the daily report, or keep both?",
+   "detail": "Options: Merge or Keep both. Due Thu Nov 5, 12:00 PM ET. Suggested: Decide after the Thu 5 Nov overlap check.",
+   "bot": "NOVA",
+   "bot_id": "nova",
+   "opened": "2026-11-02T00:00-05:00",
+   "due": "2026-11-05T12:00-05:00"
+  },
+  {
+   "id": "D002",
+   "key": "atlas-llc",
+   "title": "ATLAS's Florida LLC questions (you parked these)",
+   "detail": "Options: Answer now or Keep parked.",
+   "bot": "ATLAS",
+   "bot_id": "atlas",
+   "opened": "2026-11-02T00:00-05:00",
+   "due": null
+  }
+ ]
+}
